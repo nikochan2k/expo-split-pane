@@ -10,7 +10,7 @@ or
 
 # Demo
 
-![open](https://github.com/nikochan2k/expo-split-pane/blob/8d0e9181f1cd7432218f18c4c091ff8e62fe4dd0/assets/favicon.png)
+![open](https://github.com/nikochan2k/expo-split-pane/blob/6f55d25a407c5bb53735087e790db0d0c1253afd/assets/demo.gif)
 
 # Usage
 
