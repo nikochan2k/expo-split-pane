@@ -1,5 +1,5 @@
 import { SafeAreaView, Text, View } from "react-native";
-import { SplitPane } from "./SplitPane";
+import { SplitPane } from "./module/SplitPane";
 
 export default function App() {
   return (

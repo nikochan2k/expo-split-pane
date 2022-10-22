@@ -1,0 +1,50 @@
+{
+  "name": "expo-split-pane",
+  "version": "0.1.0",
+  "main": "commonjs/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "commonjs",
+    "lib"
+  ],
+  "keywords": [
+    "react",
+    "expo",
+    "react-native",
+    "react-native-web",
+    "split",
+    "divider",
+    "movable"
+  ],
+  "scripts": {
+    "clean": "rimraf ./lib ./commonjs ./dist",
+    "compile-lib": "tsc --module ES2020 --outDir lib",
+    "compile-commonjs": "tsc --module CommonJS --outDir commonjs",
+    "build": "npm-run-all clean compile-lib compile-commonjs",
+    "npm-publish-dry-run": "npm publish --dry-run",
+    "npm-publish": "npm publish",
+    "release-dry-run": "npm-run-all build npm-publish-dry-run",
+    "release": "npm-run-all build sanitize npm-publish"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "peerDependencies": {
+    "react": ">17.0.0",
+    "react-dom": ">17.0.0",
+    "react-native": ">0.62.0",
+    "react-native-web": ">0.12.0"
+  },
+  "author": "Yoshihiro Seki",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikochan2k/expo-split-pane.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nikochan2k/expo-split-pane/issues"
+  },
+  "homepage": "https://github.com/nikochan2k/expo-split-pane#readme"
+}
