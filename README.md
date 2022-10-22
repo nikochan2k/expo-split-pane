@@ -14,7 +14,7 @@ or
 
 # Usage
 
-````jsx harmony
+```jsx harmony
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -70,14 +70,14 @@ export default function App() {
 ```
 
 # Props
-| prop        | type                       | required | note                    |
-| ----------- | -------------------------- | -------- | ----------------------- |
-|orientation  | 'horizontal' or 'virtical' | false    | default is 'horizontal' |
-|style        | ViewStyle                  | false    | container style         |
-|dividerStyle | ViewStyle                  | false    | divider style           |
-|pane1        | JSX.Element                | true     | first element           |
-|pane2        | JSX.Element                | true     | second element          |
-|min          | number                     | false    | min size, default is 30 |
-|hSplitIcon   | JSX.Element                | false    | horizontal split icon   |
-|vSplitIcon   | JSX.Element                | false    | vertical split icon     |
-````
+
+| prop         | type                       | required | note                    |
+| ------------ | -------------------------- | -------- | ----------------------- |
+| orientation  | 'horizontal' or 'virtical' | false    | default is 'horizontal' |
+| style        | ViewStyle                  | false    | container style         |
+| dividerStyle | ViewStyle                  | false    | divider style           |
+| pane1        | JSX.Element                | true     | first element           |
+| pane2        | JSX.Element                | true     | second element          |
+| min          | number                     | false    | min size, default is 30 |
+| hSplitIcon   | JSX.Element                | false    | horizontal split icon   |
+| vSplitIcon   | JSX.Element                | false    | vertical split icon     |
