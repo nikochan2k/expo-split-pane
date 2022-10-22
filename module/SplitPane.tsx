@@ -7,6 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import Svg, { Path } from "react-native-svg";
 
 interface SplitPaneProps {
   style?: ViewStyle;
@@ -15,6 +16,8 @@ interface SplitPaneProps {
   pane2: JSX.Element;
   dividerStyle?: ViewStyle;
   min?: number;
+  hSplitIcon?: JSX.Element;
+  vSplitIcon?: JSX.Element;
 }
 
 interface SplitState {
@@ -31,6 +34,25 @@ interface Layout {
 }
 
 const DEFAULT_DIVIDER_SIZE = 6;
+// from https://materialdesignicons.com/
+// arrow-split-horizontal
+const HSPLIT = (
+  <Svg width={24} height={24}>
+    <Path
+      fill="gray"
+      d="M8,18H11V15H2V13H22V15H13V18H16L12,22L8,18M12,2L8,6H11V9H2V11H22V9H13V6H16L12,2Z"
+    />
+  </Svg>
+);
+// arrow-split-vertical
+const VSPLIT = (
+  <Svg width={24} height={24}>
+    <Path
+      fill="gray"
+      d="M18,16V13H15V22H13V2H15V11H18V8L22,12L18,16M2,12L6,16V13H9V22H11V2H9V11H6V8L2,12Z"
+    />
+  </Svg>
+);
 
 export const SplitPane: FC<SplitPaneProps> = ({
   style,
@@ -39,6 +61,8 @@ export const SplitPane: FC<SplitPaneProps> = ({
   pane2,
   dividerStyle,
   min,
+  hSplitIcon,
+  vSplitIcon,
 }) => {
   const [state, setState] = useState<SplitState>({ clicked: false });
   const layout = useRef<Layout>({});
@@ -46,9 +70,11 @@ export const SplitPane: FC<SplitPaneProps> = ({
 
   if (!dividerStyle) dividerStyle = {};
   if (!dividerStyle.backgroundColor) {
-    dividerStyle.backgroundColor = state.clicked ? "gray" : "whitesmoke";
+    dividerStyle.backgroundColor = state.clicked ? "gray" : "lightgray";
   }
   if (!min) min = 30;
+  if (!hSplitIcon) hSplitIcon = HSPLIT;
+  if (!vSplitIcon) vSplitIcon = VSPLIT;
 
   const dividerClicked = useCallback(
     (clicked: boolean) => {
@@ -162,7 +188,19 @@ export const SplitPane: FC<SplitPaneProps> = ({
       onLayout={(e) => measureLayout(e.nativeEvent.layout)}
     >
       <Animated.View style={pane1Style}>{pane1}</Animated.View>
-      <View style={dividerStyle} {...panResponder.panHandlers} />
+      <View
+        style={{
+          ...dividerStyle,
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 777,
+        }}
+        {...panResponder.panHandlers}
+      >
+        <View style={{ position: "absolute" }}>
+          {orientation === "horizontal" ? hSplitIcon : vSplitIcon}
+        </View>
+      </View>
       <Animated.View style={pane2Style}>{pane2}</Animated.View>
     </View>
   );
