@@ -66,7 +66,8 @@ export default function App() {
       />
     </SafeAreaView>
   );
-}```
+}
+```
 
 # Props
 | prop        | type                       | required | note                    |
