@@ -9,11 +9,11 @@ import {
 } from "react-native";
 
 interface SplitPaneProps {
-  style?: ViewStyle;
   orientation: "horizontal" | "vertical";
   pane1: JSX.Element;
   pane2: JSX.Element;
   dividerStyle?: ViewStyle;
+  min?: number;
 }
 
 interface SplitState {
@@ -32,11 +32,11 @@ interface Layout {
 const DEFAULT_DIVIDER_SIZE = 6;
 
 export const SplitPane: FC<SplitPaneProps> = ({
-  style,
   orientation,
   pane1,
   pane2,
   dividerStyle,
+  min,
 }) => {
   const [state, setState] = useState<SplitState>({ clicked: false });
   const layout = useRef<Layout>({});
@@ -46,6 +46,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
   if (!dividerStyle.backgroundColor) {
     dividerStyle.backgroundColor = state.clicked ? "#666" : "#e2e2e2";
   }
+  if (!min) min = 30;
 
   const dividerClicked = useCallback(
     (clicked: boolean) => {
@@ -56,26 +57,35 @@ export const SplitPane: FC<SplitPaneProps> = ({
 
   const dividerMoved = useCallback(
     (gestureState: PanResponderGestureState) => {
+      let pane1Size: number | undefined;
+      let pane2Size: number | undefined;
       if (orientation === "horizontal") {
         const { top, height } = layout.current;
         if (top != null && height != null) {
           const margin = (dividerStyle!.height as number) / 2;
-          setState({
-            ...state,
-            pane1Size: gestureState.moveY - margin - top,
-            pane2Size: height + top - (gestureState.moveY + margin),
-          });
+          pane1Size = gestureState.moveY - margin - top;
+          pane2Size = height + top - (gestureState.moveY + margin);
         }
       } else {
         const { left, width } = layout.current;
         if (left != null && width != null) {
           const margin = (dividerStyle!.width as number) / 2;
-          setState({
-            ...state,
-            pane1Size: gestureState.moveX - margin - left,
-            pane2Size: width + left - (gestureState.moveX + margin),
-          });
+          pane1Size = gestureState.moveX - margin - left;
+          pane2Size = width + left - (gestureState.moveX + margin);
         }
+      }
+      if (pane1Size && pane2Size) {
+        if (pane1Size < min!) {
+          const diff = min! - pane1Size;
+          pane1Size = min!;
+          pane2Size -= diff;
+        }
+        if (pane2Size < min!) {
+          const diff = min! - pane2Size;
+          pane2Size = min!;
+          pane1Size -= diff;
+        }
+        setState({ ...state, pane1Size, pane2Size });
       }
     },
     [state]
@@ -145,7 +155,6 @@ export const SplitPane: FC<SplitPaneProps> = ({
       style={{
         flex: 1,
         flexDirection: orientation === "horizontal" ? "column" : "row",
-        ...style,
       }}
       onLayout={(e) => measureLayout(e.nativeEvent.layout)}
     >
