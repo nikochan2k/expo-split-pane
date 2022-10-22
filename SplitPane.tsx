@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 interface SplitPaneProps {
+  style?: ViewStyle;
   orientation: "horizontal" | "vertical";
   pane1: JSX.Element;
   pane2: JSX.Element;
@@ -32,6 +33,7 @@ interface Layout {
 const DEFAULT_DIVIDER_SIZE = 6;
 
 export const SplitPane: FC<SplitPaneProps> = ({
+  style,
   orientation,
   pane1,
   pane2,
@@ -44,7 +46,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
 
   if (!dividerStyle) dividerStyle = {};
   if (!dividerStyle.backgroundColor) {
-    dividerStyle.backgroundColor = state.clicked ? "#666" : "#e2e2e2";
+    dividerStyle.backgroundColor = state.clicked ? "gray" : "whitesmoke";
   }
   if (!min) min = 30;
 
@@ -124,8 +126,8 @@ export const SplitPane: FC<SplitPaneProps> = ({
     [state]
   );
 
-  const pane1Style: ViewStyle = { borderColor: "red", borderWidth: 1 };
-  const pane2Style: ViewStyle = { borderColor: "red", borderWidth: 1 };
+  const pane1Style: ViewStyle = {};
+  const pane2Style: ViewStyle = {};
   if (orientation === "horizontal") {
     if (!dividerStyle.height) {
       dividerStyle.height = DEFAULT_DIVIDER_SIZE;
@@ -154,6 +156,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
     <View
       style={{
         flex: 1,
+        ...style,
         flexDirection: orientation === "horizontal" ? "column" : "row",
       }}
       onLayout={(e) => measureLayout(e.nativeEvent.layout)}

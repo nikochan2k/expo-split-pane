@@ -1,31 +1,55 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { SplitPane } from "./SplitPane";
 
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <SplitPane
-        orientation="horizontal"
+        style={{ flex: 0.3 }}
+        orientation="vertical"
         pane1={
-          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "blue" }}>
-            <Text>foo</Text>
+          <View
+            style={{ flex: 1, flexGrow: 1, backgroundColor: "deepskyblue" }}
+          >
+            <Text>top1</Text>
           </View>
         }
         pane2={
-          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "green" }}>
-            <Text>bar</Text>
+          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "dodgerblue" }}>
+            <Text>top2</Text>
+          </View>
+        }
+      />
+      <SplitPane
+        style={{ flex: 1 }}
+        orientation="horizontal"
+        pane1={
+          <View
+            style={{ flex: 1, flexGrow: 1, backgroundColor: "lightyellow" }}
+          >
+            <Text>center1</Text>
+          </View>
+        }
+        pane2={
+          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "khaki" }}>
+            <Text>center2</Text>
+          </View>
+        }
+      />
+      <SplitPane
+        style={{ flex: 0.3 }}
+        orientation="vertical"
+        pane1={
+          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "lightgreen" }}>
+            <Text>bottom1</Text>
+          </View>
+        }
+        pane2={
+          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "limegreen" }}>
+            <Text>bottom2</Text>
           </View>
         }
       />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
