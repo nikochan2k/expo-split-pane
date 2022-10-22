@@ -1,21 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { SplitPane } from "./SplitPane";
 
 export default function App() {
   return (
-    <SplitPane
-      orientation="horizontal"
-      pane1={
-        <View style={{ flex: 1, flexGrow: 1, backgroundColor: "blue" }}>
-          <Text>hoge</Text>
-        </View>
-      }
-      pane2={
-        <View style={{ flex: 1, flexGrow: 1, backgroundColor: "green" }}>
-          <Text>fuga</Text>
-        </View>
-      }
-    />
+    <SafeAreaView style={{ flex: 1 }}>
+      <SplitPane
+        orientation="horizontal"
+        pane1={
+          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "blue" }}>
+            <Text>foo</Text>
+          </View>
+        }
+        pane2={
+          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "green" }}>
+            <Text>bar</Text>
+          </View>
+        }
+      />
+    </SafeAreaView>
   );
 }
 
