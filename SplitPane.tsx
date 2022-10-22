@@ -1,7 +1,7 @@
 import { FC, useCallback, useMemo, useRef, useState } from "react";
 import {
   Animated,
-  NativeMethods,
+  LayoutRectangle,
   PanResponder,
   PanResponderGestureState,
   View,
@@ -13,7 +13,7 @@ interface SplitPaneProps {
   orientation: "horizontal" | "vertical";
   pane1: JSX.Element;
   pane2: JSX.Element;
-  dividerSize?: number;
+  dividerStyle?: ViewStyle;
 }
 
 interface SplitState {
@@ -29,16 +29,23 @@ interface Layout {
   width?: number;
 }
 
+const DEFAULT_DIVIDER_SIZE = 6;
+
 export const SplitPane: FC<SplitPaneProps> = ({
   style,
   orientation,
   pane1,
   pane2,
-  dividerSize,
+  dividerStyle,
 }) => {
   const [state, setState] = useState<SplitState>({ clicked: false });
   const layout = useRef<Layout>({});
-  if (!dividerSize) dividerSize = 6;
+  const layoutTimer = useRef<any>();
+
+  if (!dividerStyle) dividerStyle = {};
+  if (!dividerStyle.backgroundColor) {
+    dividerStyle.backgroundColor = state.clicked ? "#666" : "#e2e2e2";
+  }
 
   const dividerClicked = useCallback(
     (clicked: boolean) => {
@@ -49,10 +56,10 @@ export const SplitPane: FC<SplitPaneProps> = ({
 
   const dividerMoved = useCallback(
     (gestureState: PanResponderGestureState) => {
-      const margin = dividerSize! / 2;
       if (orientation === "horizontal") {
         const { top, height } = layout.current;
         if (top != null && height != null) {
+          const margin = (dividerStyle!.height as number) / 2;
           setState({
             ...state,
             pane1Size: gestureState.moveY - margin - top,
@@ -62,6 +69,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
       } else {
         const { left, width } = layout.current;
         if (left != null && width != null) {
+          const margin = (dividerStyle!.width as number) / 2;
           setState({
             ...state,
             pane1Size: gestureState.moveX - margin - left,
@@ -73,13 +81,26 @@ export const SplitPane: FC<SplitPaneProps> = ({
     [state]
   );
 
-  const measureLayout = useCallback((target: NativeMethods) => {
-    target.measure((x, y, w, h) => {
+  const measureLayout = useCallback((l: LayoutRectangle) => {
+    if (layoutTimer.current) {
+      clearTimeout(layoutTimer.current);
+    }
+    layoutTimer.current = setTimeout(() => {
       const { left, top, width, height } = layout.current;
-      if (left !== x || top !== y || width !== w || height !== h) {
-        layout.current = { left: x, top: y, width: w, height: h };
+      if (
+        left !== l.x ||
+        top !== l.y ||
+        width !== l.width ||
+        height !== l.height
+      ) {
+        layout.current = {
+          left: l.x,
+          top: l.y,
+          width: l.width,
+          height: l.height,
+        };
       }
-    });
+    }, 100);
   }, []);
 
   const panResponder = useMemo(
@@ -94,10 +115,11 @@ export const SplitPane: FC<SplitPaneProps> = ({
   );
 
   const pane1Style: ViewStyle = { borderColor: "red", borderWidth: 1 };
-  const dividerStyle: ViewStyle = {};
   const pane2Style: ViewStyle = { borderColor: "red", borderWidth: 1 };
   if (orientation === "horizontal") {
-    dividerStyle.height = dividerSize;
+    if (!dividerStyle.height) {
+      dividerStyle.height = DEFAULT_DIVIDER_SIZE;
+    }
     if (state.pane1Size && state.pane2Size) {
       pane1Style.height = state.pane1Size;
       pane2Style.height = state.pane2Size;
@@ -106,7 +128,9 @@ export const SplitPane: FC<SplitPaneProps> = ({
       pane2Style.flex = 1;
     }
   } else {
-    dividerStyle.width = dividerSize;
+    if (!dividerStyle.width) {
+      dividerStyle.width = DEFAULT_DIVIDER_SIZE;
+    }
     if (state.pane1Size && state.pane2Size) {
       pane1Style.width = state.pane1Size;
       pane2Style.width = state.pane2Size;
@@ -123,16 +147,10 @@ export const SplitPane: FC<SplitPaneProps> = ({
         flexDirection: orientation === "horizontal" ? "column" : "row",
         ...style,
       }}
-      onLayout={(e) => measureLayout(e.target)}
+      onLayout={(e) => measureLayout(e.nativeEvent.layout)}
     >
       <Animated.View style={pane1Style}>{pane1}</Animated.View>
-      <View
-        style={{
-          ...dividerStyle,
-          backgroundColor: state.clicked ? "#666" : "#e2e2e2",
-        }}
-        {...panResponder.panHandlers}
-      />
+      <View style={dividerStyle} {...panResponder.panHandlers} />
       <Animated.View style={pane2Style}>{pane2}</Animated.View>
     </View>
   );
