@@ -6,7 +6,9 @@
   "types": "lib/index.d.ts",
   "files": [
     "commonjs",
-    "lib"
+    "lib",
+    "../README.md",
+    "../LICENSE"
   ],
   "keywords": [
     "react",

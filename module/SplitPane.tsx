@@ -11,7 +11,7 @@ import Svg, { Path } from "react-native-svg";
 
 interface SplitPaneProps {
   style?: ViewStyle;
-  orientation: "horizontal" | "vertical";
+  orientation?: "horizontal" | "vertical";
   pane1: JSX.Element;
   pane2: JSX.Element;
   dividerStyle?: ViewStyle;
@@ -68,6 +68,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
   const layout = useRef<Layout>({});
   const layoutTimer = useRef<any>();
 
+  if (!orientation) orientation = "horizontal";
   if (!dividerStyle) dividerStyle = {};
   if (!dividerStyle.backgroundColor) {
     dividerStyle.backgroundColor = state.clicked ? "gray" : "lightgray";
