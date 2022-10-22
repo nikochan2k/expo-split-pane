@@ -25,7 +25,7 @@
     "npm-publish-dry-run": "npm publish --dry-run",
     "npm-publish": "npm publish",
     "release-dry-run": "npm-run-all build npm-publish-dry-run",
-    "release": "npm-run-all build sanitize npm-publish"
+    "release": "npm-run-all build npm-publish"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
