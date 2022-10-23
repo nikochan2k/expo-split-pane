@@ -4,6 +4,7 @@ import {
   LayoutRectangle,
   PanResponder,
   PanResponderGestureState,
+  Platform,
   View,
   ViewStyle,
 } from "react-native";
@@ -33,7 +34,7 @@ interface Layout {
   width?: number;
 }
 
-const DEFAULT_DIVIDER_SIZE = 6;
+const DEFAULT_DIVIDER_SIZE = 8;
 // from https://materialdesignicons.com/
 // arrow-split-horizontal
 const HSPLIT = (
@@ -190,6 +191,12 @@ export const SplitPane: FC<SplitPaneProps> = ({
     >
       <Animated.View style={pane1Style}>{pane1}</Animated.View>
       <View
+        ref={(ref) => {
+          if (!ref) return;
+          if (Platform.OS !== "web") return;
+          const element = ref as unknown as HTMLElement;
+          element.style.cursor = "pointer";
+        }}
         style={{
           ...dividerStyle,
           alignItems: "center",
@@ -198,7 +205,15 @@ export const SplitPane: FC<SplitPaneProps> = ({
         }}
         {...panResponder.panHandlers}
       >
-        <View style={{ position: "absolute" }}>
+        <View
+          ref={(ref) => {
+            if (!ref) return;
+            if (Platform.OS !== "web") return;
+            const element = ref as unknown as HTMLElement;
+            element.style.userSelect = "none";
+          }}
+          style={{ position: "absolute" }}
+        >
           {orientation === "horizontal" ? hSplitIcon : vSplitIcon}
         </View>
       </View>
