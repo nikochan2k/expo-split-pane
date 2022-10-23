@@ -1,7 +1,6 @@
 import { FC, useCallback, useMemo, useRef, useState } from "react";
 import {
   Animated,
-  LayoutRectangle,
   PanResponder,
   PanResponderGestureState,
   Platform,
@@ -66,8 +65,8 @@ export const SplitPane: FC<SplitPaneProps> = ({
   vSplitIcon,
 }) => {
   const [state, setState] = useState<SplitState>({ clicked: false });
+  const view = useRef<View | null>(null);
   const layout = useRef<Layout>({});
-  const layoutTimer = useRef<any>();
 
   if (!orientation) orientation = "horizontal";
   if (!dividerStyle) dividerStyle = {};
@@ -121,26 +120,14 @@ export const SplitPane: FC<SplitPaneProps> = ({
     [state]
   );
 
-  const measureLayout = useCallback((l: LayoutRectangle) => {
-    if (layoutTimer.current) {
-      clearTimeout(layoutTimer.current);
-    }
-    layoutTimer.current = setTimeout(() => {
+  const measureLayout = useCallback(() => {
+    if (!view.current) return;
+    view.current.measure((x, y, w, h) => {
       const { left, top, width, height } = layout.current;
-      if (
-        left !== l.x ||
-        top !== l.y ||
-        width !== l.width ||
-        height !== l.height
-      ) {
-        layout.current = {
-          left: l.x,
-          top: l.y,
-          width: l.width,
-          height: l.height,
-        };
+      if (left !== x || top !== y || width !== w || height !== h) {
+        layout.current = { left: x, top: y, width: w, height: h };
       }
-    }, 100);
+    });
   }, []);
 
   const panResponder = useMemo(
@@ -187,7 +174,8 @@ export const SplitPane: FC<SplitPaneProps> = ({
         ...style,
         flexDirection: orientation === "horizontal" ? "column" : "row",
       }}
-      onLayout={(e) => measureLayout(e.nativeEvent.layout)}
+      ref={(ref) => (view.current = ref)}
+      onLayout={measureLayout}
     >
       <Animated.View style={pane1Style}>{pane1}</Animated.View>
       <View
