@@ -189,7 +189,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
           ...dividerStyle,
           alignItems: "center",
           justifyContent: "center",
-          zIndex: 777,
+          zIndex: 1,
         }}
         {...panResponder.panHandlers}
       >
