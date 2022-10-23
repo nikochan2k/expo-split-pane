@@ -122,10 +122,10 @@ export const SplitPane: FC<SplitPaneProps> = ({
 
   const measureLayout = useCallback(() => {
     if (!view.current) return;
-    view.current.measure((x, y, w, h) => {
+    view.current.measure((_x, _y, w, h, px, py) => {
       const { left, top, width, height } = layout.current;
-      if (left !== x || top !== y || width !== w || height !== h) {
-        layout.current = { left: x, top: y, width: w, height: h };
+      if (left !== px || top !== py || width !== w || height !== h) {
+        layout.current = { left: px, top: py, width: w, height: h };
       }
     });
   }, []);
