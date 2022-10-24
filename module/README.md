@@ -79,5 +79,3 @@ export default function App() {
 | pane1        | JSX.Element                | true     | first element           |
 | pane2        | JSX.Element                | true     | second element          |
 | min          | number                     | false    | min size, default is 30 |
-| hSplitIcon   | JSX.Element                | false    | horizontal split icon   |
-| vSplitIcon   | JSX.Element                | false    | vertical split icon     |
