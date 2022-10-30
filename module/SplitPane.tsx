@@ -15,6 +15,7 @@ interface SplitPaneProps {
   pane2: JSX.Element;
   dividerStyle?: ViewStyle;
   min?: number;
+  flipped?: boolean;
 }
 
 interface SplitState {
@@ -39,6 +40,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
   pane2,
   dividerStyle,
   min,
+  flipped,
 }) => {
   const [state, setState] = useState<SplitState>({ clicked: false });
   const view = useRef<View | null>(null);
@@ -169,7 +171,9 @@ export const SplitPane: FC<SplitPaneProps> = ({
       ref={(ref) => (view.current = ref)}
       onLayout={measureLayout}
     >
-      <Animated.View style={pane1Style}>{pane1}</Animated.View>
+      <Animated.View style={flipped ? pane2Style : pane1Style}>
+        {flipped ? pane2 : pane1}
+      </Animated.View>
       <View
         ref={(ref) => {
           if (!ref) return;
@@ -186,7 +190,9 @@ export const SplitPane: FC<SplitPaneProps> = ({
       >
         <View style={knobStyle} />
       </View>
-      <Animated.View style={pane2Style}>{pane2}</Animated.View>
+      <Animated.View style={flipped ? pane1Style : pane2Style}>
+        {flipped ? pane1 : pane2}
+      </Animated.View>
     </View>
   );
 };

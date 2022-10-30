@@ -79,3 +79,4 @@ export default function App() {
 | pane1        | JSX.Element                | true     | first element           |
 | pane2        | JSX.Element                | true     | second element          |
 | min          | number                     | false    | min size, default is 30 |
+| flipped      | boolean                    | false    | flip pane1 and pane2    |
