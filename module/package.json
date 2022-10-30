@@ -1,6 +1,6 @@
 {
   "name": "expo-split-pane",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "commonjs/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
