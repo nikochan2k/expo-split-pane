@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { SplitPane } from "./module/SplitPane";
 
 export default function App() {
@@ -24,16 +24,18 @@ export default function App() {
         style={{ flex: 1 }}
         orientation="horizontal"
         pane1={
-          <View
+          <TouchableOpacity
             style={{ flex: 1, flexGrow: 1, backgroundColor: "lightyellow" }}
           >
             <Text>center1</Text>
-          </View>
+          </TouchableOpacity>
         }
         pane2={
-          <View style={{ flex: 1, flexGrow: 1, backgroundColor: "khaki" }}>
+          <TouchableOpacity
+            style={{ flex: 1, flexGrow: 1, backgroundColor: "khaki" }}
+          >
             <Text>center2</Text>
-          </View>
+          </TouchableOpacity>
         }
       />
       <SplitPane

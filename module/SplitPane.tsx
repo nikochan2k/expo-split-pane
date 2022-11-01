@@ -180,6 +180,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
           if (Platform.OS !== "web") return;
           const element = ref as unknown as HTMLElement;
           element.style.cursor = "pointer";
+          element.onclick = () => {}; // magic
         }}
         style={{
           ...dividerStyle,
