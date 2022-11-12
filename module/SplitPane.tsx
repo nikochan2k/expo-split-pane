@@ -16,6 +16,7 @@ interface SplitPaneProps {
   dividerStyle?: ViewStyle;
   min?: number;
   flipped?: boolean;
+  onChange?: (state: SplitState) => void;
 }
 
 interface SplitState {
@@ -41,7 +42,8 @@ export const SplitPane: FC<SplitPaneProps> = ({
   dividerStyle,
   min,
   flipped,
-}) => {
+  onChange,
+}: SplitPaneProps) => {
   const [state, setState] = useState<SplitState>({ clicked: false });
   const view = useRef<View | null>(null);
   const layout = useRef<Layout>({});
@@ -90,7 +92,9 @@ export const SplitPane: FC<SplitPaneProps> = ({
           pane2Size = min!;
           pane1Size -= diff;
         }
-        setState({ ...state, pane1Size, pane2Size });
+        const spliteState: SplitState = { ...state, pane1Size, pane2Size };
+        setState(spliteState);
+        if (onChange) onChange(spliteState);
       }
     },
     [state]
