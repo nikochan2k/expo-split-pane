@@ -38,6 +38,7 @@ export default function App() {
             <Text>center2</Text>
           </TouchableOpacity>
         }
+        onChange={(state) => console.log(state)}
       />
       <SplitPane
         style={{ flex: 0.3 }}

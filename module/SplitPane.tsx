@@ -55,6 +55,7 @@ export const SplitPane: FC<SplitPaneProps> = ({
   });
   const view = useRef<View | null>(null);
   const layout = useRef<Layout>({});
+  const changeThrottleTimer = useRef<any>();
 
   if (!orientation) orientation = "horizontal";
   if (!dividerStyle) dividerStyle = {};
@@ -106,7 +107,17 @@ export const SplitPane: FC<SplitPaneProps> = ({
           pane2Size,
         };
         setState(spliteState);
-        if (onChange) onChange(spliteState);
+
+        if (onChange) {
+          if (changeThrottleTimer.current != null) {
+            clearTimeout(changeThrottleTimer.current);
+            changeThrottleTimer.current = undefined;
+          }
+          changeThrottleTimer.current = setTimeout(() => {
+            changeThrottleTimer.current = undefined;
+            onChange(spliteState);
+          }, 500);
+        }
       }
     },
     [state]
