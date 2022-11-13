@@ -14,6 +14,7 @@ export default function App() {
             <Text>top1</Text>
           </View>
         }
+        pane1InitialSize={100}
         pane2={
           <View style={{ flex: 1, flexGrow: 1, backgroundColor: "dodgerblue" }}>
             <Text>top2</Text>
@@ -51,6 +52,7 @@ export default function App() {
             <Text>bottom2</Text>
           </View>
         }
+        pane2InitialSize={100}
       />
     </SafeAreaView>
   );

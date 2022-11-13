@@ -1,15 +1,10 @@
 {
   "name": "expo-split-pane",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "main": "commonjs/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "commonjs",
-    "lib",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["commonjs", "lib", "README.md", "LICENSE"],
   "keywords": [
     "react",
     "expo",

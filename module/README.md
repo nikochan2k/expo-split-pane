@@ -71,12 +71,15 @@ export default function App() {
 
 # Props
 
-| prop         | type                       | required | note                    |
-| ------------ | -------------------------- | -------- | ----------------------- |
-| orientation  | 'horizontal' or 'virtical' | false    | default is 'horizontal' |
-| style        | ViewStyle                  | false    | container style         |
-| dividerStyle | ViewStyle                  | false    | divider style           |
-| pane1        | JSX.Element                | true     | first element           |
-| pane2        | JSX.Element                | true     | second element          |
-| min          | number                     | false    | min size, default is 30 |
-| flipped      | boolean                    | false    | flip pane1 and pane2    |
+| prop             | type                       | required | note                        |
+| ---------------- | -------------------------- | -------- | --------------------------- |
+| orientation      | 'horizontal' or 'virtical' | false    | default is 'horizontal'     |
+| style            | ViewStyle                  | false    | container style             |
+| dividerStyle     | ViewStyle                  | false    | divider style               |
+| pane1            | JSX.Element                | true     | first element               |
+| pane2            | JSX.Element                | true     | second element              |
+| pane1InitialSize | JSX.Element                | true     | first element initial size  |
+| pane2InitialSize | JSX.Element                | true     | second element initial size |
+| min              | number                     | false    | min size, default is 30     |
+| flipped          | boolean                    | false    | flip pane1 and pane2        |
+| onChange         | (state) => void            | false    | callback of divider changed |

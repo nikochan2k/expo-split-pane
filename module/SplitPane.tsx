@@ -13,6 +13,8 @@ interface SplitPaneProps {
   orientation?: "horizontal" | "vertical";
   pane1: JSX.Element;
   pane2: JSX.Element;
+  pane1InitialSize?: number;
+  pane2InitialSize?: number;
   dividerStyle?: ViewStyle;
   min?: number;
   flipped?: boolean;
@@ -39,12 +41,18 @@ export const SplitPane: FC<SplitPaneProps> = ({
   orientation,
   pane1,
   pane2,
+  pane1InitialSize,
+  pane2InitialSize,
   dividerStyle,
   min,
   flipped,
   onChange,
 }: SplitPaneProps) => {
-  const [state, setState] = useState<SplitState>({ clicked: false });
+  const [state, setState] = useState<SplitState>({
+    clicked: false,
+    pane1Size: pane1InitialSize,
+    pane2Size: pane2InitialSize,
+  });
   const view = useRef<View | null>(null);
   const layout = useRef<Layout>({});
 
@@ -92,7 +100,11 @@ export const SplitPane: FC<SplitPaneProps> = ({
           pane2Size = min!;
           pane1Size -= diff;
         }
-        const spliteState: SplitState = { ...state, pane1Size, pane2Size };
+        const spliteState: SplitState = {
+          clicked: state.clicked,
+          pane1Size,
+          pane2Size,
+        };
         setState(spliteState);
         if (onChange) onChange(spliteState);
       }
@@ -128,11 +140,14 @@ export const SplitPane: FC<SplitPaneProps> = ({
     if (!dividerStyle.height) {
       dividerStyle.height = DEFAULT_DIVIDER_SIZE;
     }
-    if (state.pane1Size && state.pane2Size) {
+    if (0 < (state.pane1Size ?? 0)) {
       pane1Style.height = state.pane1Size;
-      pane2Style.height = state.pane2Size;
     } else {
       pane1Style.flex = 1;
+    }
+    if (0 < (state.pane2Size ?? 0)) {
+      pane2Style.height = state.pane2Size;
+    } else {
       pane2Style.flex = 1;
     }
     knobStyle.borderTopColor = "black";
@@ -145,11 +160,14 @@ export const SplitPane: FC<SplitPaneProps> = ({
     if (!dividerStyle.width) {
       dividerStyle.width = DEFAULT_DIVIDER_SIZE;
     }
-    if (state.pane1Size && state.pane2Size) {
+    if (0 < (state.pane1Size ?? 0)) {
       pane1Style.width = state.pane1Size;
-      pane2Style.width = state.pane2Size;
     } else {
       pane1Style.flex = 1;
+    }
+    if (0 < (state.pane2Size ?? 0)) {
+      pane2Style.width = state.pane2Size;
+    } else {
       pane2Style.flex = 1;
     }
     knobStyle.borderLeftColor = "black";
